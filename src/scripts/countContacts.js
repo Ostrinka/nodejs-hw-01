@@ -1,5 +1,26 @@
+import fs from 'node:fs/promises';
 import { PATH_DB } from '../constants/contacts.js';
 
-export const countContacts = async () => {};
+export const countContacts = async () => {
+  try {
+    const data = await fs.readFile(PATH_DB, 'utf8');
+    const contacts = JSON.parse(data);
 
-console.log(await countContacts());
+    return contacts.length;
+
+  } catch (error) {
+    console.error(error);
+    throw error; 
+  }
+};
+
+(async () => {
+  try {
+    console.log(await countContacts());
+  } catch (error) {
+    console.error(error);
+  }
+})();
+
+
+
